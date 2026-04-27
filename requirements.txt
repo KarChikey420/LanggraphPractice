@@ -4,3 +4,11 @@ langsmith
 python-dotenv
 langchain-groq
 langchain-tavily
+typer
+phidata
+groq
+fastembed
+pgvector
+pypdf
+psycopg[binary]
+sqlalchemy
