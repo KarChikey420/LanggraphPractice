@@ -16,6 +16,22 @@ except ImportError as exc:
         "Install the `fastembed` package in this project environment before running this script."
     ) from exc
 
+
+class FlatFastEmbedder(FastEmbedEmbedder):
+    def get_embedding(self, text: str) -> List[float]:
+        raw_embedding = super().get_embedding(text)
+        if not raw_embedding:
+            return []
+
+        first_item = raw_embedding[0]
+        if hasattr(first_item, "tolist"):
+            return first_item.tolist()
+
+        if isinstance(first_item, list):
+            return first_item
+
+        return raw_embedding
+
 load_dotenv()
 
 groq_api_key = os.getenv("GROQ_API_KEY") or os.getenv("GroqAPI")
@@ -33,7 +49,7 @@ knowledge_base = PDFUrlKnowledgeBase(
         table_name="recipes",
         db_url=db_url,
         search_type=SearchType.hybrid,
-        embedder=FastEmbedEmbedder(model=embedding_model),
+        embedder=FlatFastEmbedder(model=embedding_model),
     ),
 )
 
