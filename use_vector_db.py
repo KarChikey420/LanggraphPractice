@@ -86,6 +86,5 @@ def pdf_agent(new: bool = False, user: str = "user") -> None:
     agent.cli_app(markdown=True)
 
 
-if __name__ == "__main__":
-    typer.run(pdf_agent)
+
             
